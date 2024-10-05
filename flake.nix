@@ -3,7 +3,7 @@
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-  outputs = { self, nixpkgs, app }: {
+  outputs = { self, nixpkgs, ... }: {
     packages.x86_64-linux.default = let
       pkgs = import nixpkgs { system = "x86_64-linux"; };
     in pkgs.mkShell {
@@ -16,6 +16,11 @@
         pkgs.hidapi
         pkgs.usbutils
       ];
+    };
+
+    apps.x86_64-linux.midi-metamorphosis = {
+      type = "app";
+      program = "${self.packages.x86_64-linux.default}/bin/midi_metaphorosis";
     };
   };
 }
